@@ -12,18 +12,35 @@ st.title("B2B Book Distributor — Smart Dashboard")
 # -------------------------
 # Helpers & Caching
 # -------------------------
-@st.cache_data(show_spinner=True)
-def load_and_prepare(filepath="B2B_Transaction_Data.xlsx"):
-    """
-    Reads the excel and returns:
-    - df: original transactions with Sales Revenue and month
-    - df_monthly: monthly aggregated sales per StockCode with a 'month' column (1..12)
-    - df_final: SKU-level summary with total_revenue, average_sales, std_dev, CV, ABC_Class, XYZ_Class, stock_class, Description
-    """
-    try:
-        df = pd.read_excel(filepath)
-    except Exception as e:
-        raise FileNotFoundError(f"Excel okunamadı: {e}")
+@st.cache_data
+def load_data(uploaded_file):
+    """Read Excel from uploader (or local file as fallback)."""
+    if uploaded_file is not None:
+        df = pd.read_excel(uploaded_file)
+    else:
+        # Fallback for running locally (teacher can keep the file in the same folder)
+        df = pd.read_excel("B2B_Transaction_Data.xlsx")
+    return df
+
+st.sidebar.header("🔁 Data & Filters")
+
+uploaded_file = st.sidebar.file_uploader(
+    "Upload *B2B_Transaction_Data.xlsx*", type=["xlsx", "xls"]
+)
+
+if uploaded_file is None:
+    st.sidebar.info(
+        "You can upload the homework dataset here.\n\n"
+        "If you are running this locally and the file is in the same folder "
+        "as this script, the app will try to load it automatically."
+    )
+
+# Try loading data (will crash if file is really missing everywhere, which is okay for homework)
+try:
+    df = load_data(uploaded_file)
+except Exception as e:
+    st.error("❌ Data could not be loaded. Please upload the Excel file.")
+    st.stop()
 
     # Basic cleaning: ensure expected columns exist
     expected = {'StockCode','Description','Quantity','UnitPrice','InvoiceDate'}
