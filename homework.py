@@ -7,25 +7,6 @@ from scipy.stats import zscore
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
 
-st.title("B2B Transaction Dashboard")
-
-# Google Sheets linki
-file_id = "1gqQkRnmtTu01gIHWB1yhENb8SO8sWNuz"
-downloaded_url = f"https://docs.google.com/spreadsheets/d/{file_id}/export?format=xlsx"
-
-# Excel dosyasını oku
-df = pd.read_excel(downloaded_url)
-
-# Veriyi Streamlit tablosunda göster
-st.write("Veri tablosu:")
-st.dataframe(df)
-
-# Örnek: Plotly grafiği
-if 'Amount' in df.columns and 'Quantity' in df.columns:
-    fig = px.scatter(df, x='Quantity', y='Amount', title="Miktar vs Tutar")
-    st.plotly_chart(fig)
-st.set_page_config(page_title="B2B Product Dashboard", layout="wide", page_icon="📚")
-
 st.title("B2B Book Distributor — Smart Dashboard")
 
 # -------------------------
