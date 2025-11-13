@@ -1,4 +1,20 @@
 # app.py
+# Google Drive linki
+url = "https://docs.google.com/spreadsheets/d/1gqQkRnmtTu01gIHWB1yhENb8SO8sWNuz/edit?usp=sharing&ouid=100665184525318718826&rtpof=true&sd=true"
+
+# Linki "direct download" linkine çevir
+file_id = url.split("/")[-2]
+downloaded_url = f"https://drive.google.com/uc?id={1gqQkRnmtTu01gIHWB1yhENb8SO8sWNuz}"
+
+# Excel dosyasını oku
+df = pd.read_excel(downloaded_url)
+
+# Streamlit ile göster
+st.write("Veri tablosu:")
+st.dataframe(df)
+# Veriyi Streamlit tablosunda göster
+st.write("Veri tablosu:")
+st.dataframe(df)
 import streamlit as st
 import pandas as pd
 import numpy as np
